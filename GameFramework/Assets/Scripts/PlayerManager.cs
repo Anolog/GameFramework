@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+	    
 	}
 
     //Adds a player to the PlayerList and increments the CurrentPlayerAmount
@@ -49,7 +49,7 @@ public class PlayerManager : MonoBehaviour {
     //Returns the player at the specified index
     Player GetPlayer(int aPlayerIndex)
     {
-        return PlayerList(aPlayerIndex);
+        return PlayerList[aPlayerIndex];
     }
 
     //Returns the PlayerList

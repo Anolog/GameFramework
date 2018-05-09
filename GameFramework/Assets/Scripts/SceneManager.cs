@@ -60,7 +60,7 @@ public class SceneManager : MonoBehaviour
             m_InitialDuration = 2.5f;
 
             //Start coroutine for loading scene
-
+            Instance.StartCoroutine(LoadNextLevelWithFade());
         }
         
         else
@@ -115,7 +115,7 @@ public class SceneManager : MonoBehaviour
     }
 
     //This will be called in most cases. aDirection should be true for fade to black, and false for fade to black (Life it seems to fade away...)
-    public IEnumerable PlayFadeAnimation(bool aDirection, CanvasGroup aFadeTarget)
+    public IEnumerator PlayFadeAnimation(bool aDirection, CanvasGroup aFadeTarget)
     {
         if (aDirection == true)
         {
@@ -126,35 +126,66 @@ public class SceneManager : MonoBehaviour
         {
             yield return Instance.StartCoroutine(PlayFadeAnimation(1.0f, 0.0f, aFadeTarget));
         }
+
     }
 
-	public IEnumerable LoadNextLevelWithFade()
+	public IEnumerator LoadNextLevelWithFade()
     {
-        //yield return StartCoroutine(LoadLevelWithFade(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1));
-        yield return null;
+        yield return StartCoroutine(LoadLevelWithFade(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1, false));
     }
 
-    public IEnumerable LoadLevelWithFade(string aSceneName)
-    {
-        //This is temporary cause it is now accepting it for some reason
-        object[] temp = { true, m_BlackCanvas };
-        object[] temp2 = { false, m_BlackCanvas };
-
-
+    public IEnumerator LoadLevelWithFade(string aSceneName)
+    { 
         SetCurrentCanvasActive(true);
 
-        //For some reason it doesn't like this line...?
-        //TODO: fix this vvvvv
-        //yield return Instance.StartCoroutine("PlayFadeAnimation(true, m_BlackCanvas)");
-
-        yield return Instance.StartCoroutine("PlayFadeAnimation", temp);
+        yield return Instance.StartCoroutine(PlayFadeAnimation(true, m_BlackCanvas));
 
         var async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(aSceneName);
         //Waiting for the load to finish
         yield return async;
-        yield return Instance.StartCoroutine("PlayFadeAnimation", temp2);
-        //yield return Instance.StartCoroutine("PlayFadeAnimation(false, m_BlackCanvas)");
+        yield return Instance.StartCoroutine(PlayFadeAnimation(false, m_BlackCanvas));
 
         SetCurrentCanvasActive(false);
+    }
+
+    public IEnumerator LoadLevelWithFade(int aLevelIndex, bool aShowLoadingScreen)
+    {
+        SetCurrentCanvasActive(true);
+        //Start loading on black canvas
+        yield return Instance.StartCoroutine(PlayFadeAnimation(true, m_BlackCanvas));
+        
+        //start fade in on loading canvas
+        if (aShowLoadingScreen == true && m_LoadingScreenCanvasGroup != null)
+        {
+            yield return Instance.StartCoroutine(PlayFadeAnimation(true, m_LoadingScreenCanvasGroup));
+        }
+
+        //wait for load to finish
+        var async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(aLevelIndex);
+        yield return async;
+
+        //Reverse fade
+        if (aShowLoadingScreen == true && m_LoadingScreenCanvasGroup != null)
+        {
+            yield return Instance.StartCoroutine(PlayFadeAnimation(false, m_LoadingScreenCanvasGroup));
+        }
+
+        //Reverse the black canvas
+        yield return Instance.StartCoroutine(PlayFadeAnimation(false, m_BlackCanvas));
+        SetCurrentCanvasActive(false);
+    }
+    
+    public void ExitToMainMenu()
+    {
+        //TODO:
+        //Change to use a variable in the load async
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("");
+    }
+
+    public void QuitGame()
+    {
+        //Call other functions and whatever is needed before quitting
+
+        Application.Quit();
     }
 }

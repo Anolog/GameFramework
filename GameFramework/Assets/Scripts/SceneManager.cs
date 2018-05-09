@@ -17,6 +17,9 @@ public class SceneManager : MonoBehaviour
 
     [SerializeField]
     private CanvasGroup m_LoadingScreenCanvasGroup;
+
+    [SerializeField]
+    private CanvasGroup m_BlackCanvas;
     private string[] m_SceneNames;
 
     [SerializeField]
@@ -68,6 +71,18 @@ public class SceneManager : MonoBehaviour
 
     }
 
+    //Set the canvas to be enabled or disabled
+    public void SetCurrentCanvasActive(bool aActive)
+    {
+        m_BlackCanvas.gameObject.SetActive(aActive);
+
+        if (m_LoadingScreenCanvasGroup != null)
+        {
+            m_CurrentCanvas.gameObject.SetActive(aActive);
+            m_LoadingScreenCanvasGroup.gameObject.SetActive(aActive);
+        }
+    }
+
     //Takes a start value and an end value to interpolate between, and a fade target to change for it's alpha value
     public IEnumerator PlayFadeAnimation(float aStartValue, float aEndValue, CanvasGroup aFadeTarget)
     {
@@ -113,5 +128,32 @@ public class SceneManager : MonoBehaviour
         }
     }
 
-	
+	public IEnumerable LoadNextLevelWithFade()
+    {
+        //yield return StartCoroutine(LoadLevelWithFade(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1));
+    }
+
+    public IEnumerable LoadLevelWithFade(string aSceneName)
+    {
+        //This is temporary cause it is now accepting it for some reason
+        object[] temp = { true, m_BlackCanvas };
+        object[] temp2 = { false, m_BlackCanvas };
+
+
+        SetCurrentCanvasActive(true);
+
+        //For some reason it doesn't like this line...?
+        //TODO: fix this vvvvv
+        //yield return Instance.StartCoroutine("PlayFadeAnimation(true, m_BlackCanvas)");
+
+        yield return Instance.StartCoroutine("PlayFadeAnimation", temp);
+
+        var async = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(aSceneName);
+        //Waiting for the load to finish
+        yield return async;
+        yield return Instance.StartCoroutine("PlayFadeAnimation", temp2);
+        //yield return Instance.StartCoroutine("PlayFadeAnimation(false, m_BlackCanvas)");
+
+        SetCurrentCanvasActive(false);
+    }
 }

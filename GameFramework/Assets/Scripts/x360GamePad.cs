@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 using XInputDotNetPure;
 
 
 // tutorial used for this script found here: https://lcmccauley.wordpress.com/2015/04/20/x360-input-tutorial-unity-p1/
+// parts 1-3 were used
 
 //stores the state of a single gamePad button
 public struct xButton
@@ -59,7 +60,7 @@ public class x360GamePad
     public x360GamePad(int aIndex)
     {
         // Set gamepad index
-        m_GamePadIndex = aIndex - 1;
+        m_GamePadIndex = aIndex;
         m_PlayerIndex = (PlayerIndex)m_GamePadIndex;
 
         // Create rumble container and inputmap

@@ -1,43 +1,10 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ControllerManager {
 
     private List<Controller> m_ListOfControllers = new List<Controller>();
-
-    //delegate declarations that our events will use
-    public delegate void HandleButtonPress(Controller aGamePad);
-    public delegate void HandleJoystick(Controller aGamePad, Vector2 aJoystick);
-
-    //Face button press events
-    public event HandleButtonPress HandleAButton,
-                                   HandleXButton,
-                                   HandleYButton,
-                                   HandleBButton;
-
-    //DPad button press events
-    public event HandleButtonPress HandleDPadUp,
-                                   HandleDPadDown,
-                                   HandleDPadLeft,
-                                   HandleDPadRight;
-
-    //L1-3 and R1-3 button press events
-    public event HandleButtonPress HandleRightBumper,
-                                   HandleLeftBumper,
-                                   HandleRightTrigger,
-                                   HandleLeftTrigger,
-                                   HandleRightJoystickClick,
-                                   HandleLeftJoystickClick;
-
-    //Other button press events
-    public event HandleButtonPress HandleStart,
-                                   HandleBack,
-                                   HandleGuide; //Xbox logo button
-
-    //Joystick movement events
-    public event HandleJoystick HandleRightStick,
-                                HandleLeftStick;
 
     //retruns the controller at the specified index
     public Controller GetController(int aControllerIndex)
@@ -62,7 +29,7 @@ public class ControllerManager {
     {
         foreach (Controller controller in m_ListOfControllers)
         {
-            controller.HandleInput(this);
+            controller.HandleInput();
         }
     }
 }

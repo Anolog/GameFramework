@@ -131,6 +131,7 @@ public class SceneManager : MonoBehaviour
 	public IEnumerable LoadNextLevelWithFade()
     {
         //yield return StartCoroutine(LoadLevelWithFade(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1));
+        yield return null;
     }
 
     public IEnumerable LoadLevelWithFade(string aSceneName)

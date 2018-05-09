@@ -2,59 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour {
+public class PlayerManager {
 
-    private List<Player> PlayerList;
+    private List<Player> m_PlayerList = new List<Player>();
 
-    private int CurrentPlayerAmount = 0;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	    
-	}
+    private int m_CurrentPlayerAmount = 0;
 
     //Adds a player to the PlayerList and increments the CurrentPlayerAmount
-    void AddPlayerToList(Player aPlayerToAdd)
+    public void AddPlayerToList(Player aPlayerToAdd)
     {
-        PlayerList.Add(aPlayerToAdd);
-        CurrentPlayerAmount++;
+        m_PlayerList.Add(aPlayerToAdd);
+        m_CurrentPlayerAmount++;
     }
 
     //Removes the specified player from the PlayerList
-    void RemovePlayerFromList(Player aPlayerToRemove)
+    public void RemovePlayerFromList(Player aPlayerToRemove)
     {
-        PlayerList.Remove(aPlayerToRemove);
-        CurrentPlayerAmount--;
+        m_PlayerList.Remove(aPlayerToRemove);
+        m_CurrentPlayerAmount--;
     }
 
     //Removes the specified player index from the PlayerIndex
-    void RemovePlayerFromList(int aPlayerIndexToRemove)
+    public void RemovePlayerFromList(int aPlayerIndexToRemove)
     {
-        PlayerList.RemoveAt(aPlayerIndexToRemove);
-        CurrentPlayerAmount--;
+        m_PlayerList.RemoveAt(aPlayerIndexToRemove);
+        m_CurrentPlayerAmount--;
     }
 
     //Removes all players from the PlayerList
-    void RemoveAllPlayers()
+    public void RemoveAllPlayers()
     {
-        PlayerList.Clear();
-        CurrentPlayerAmount = 0;
+        m_PlayerList.Clear();
+        m_CurrentPlayerAmount = 0;
     }
 
     //Returns the player at the specified index
-    Player GetPlayer(int aPlayerIndex)
+    public Player GetPlayer(int aPlayerIndex)
     {
-        return PlayerList[aPlayerIndex];
+        return m_PlayerList[aPlayerIndex];
     }
 
     //Returns the PlayerList
-    List<Player> GetPlayerList()
+    public List<Player> GetPlayerList()
     {
-        return PlayerList;
+        return m_PlayerList;
     }
 }

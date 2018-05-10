@@ -68,7 +68,6 @@ public class Controller {
     private x360GamePad m_GamePad;
 
     // this is the time a button needs to be pressed for before the held event will be called
-    [SerializeField]
     private Dictionary<string, float> m_HoldTimes = new Dictionary<string, float>();
 
     // the timer used for seeing if a button is held down long enough

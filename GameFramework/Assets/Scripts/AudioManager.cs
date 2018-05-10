@@ -1,16 +1,18 @@
-﻿
-public class AudioManager {
+﻿using UnityEngine;
 
-    private MusicManager m_MusicManager;
+public class AudioManager : MonoBehaviour {
+
+    public MusicManager m_MusicManager;
     private SoundEffectsManager m_SoundEffectsManager;
 
     // These will be obtained from the player prefs
     private float m_MusicVolume;
     private float m_SoundEffectsVolume;
 
-	void Start () {
+	public void Start () {
         // Set the Audio stuff
-        m_MusicManager = new MusicManager(this);
+        m_MusicManager = GetComponent<MusicManager>();
+        m_MusicManager.AudioManager = this;
 	}
 
     public MusicManager GetMusicManager() { return m_MusicManager; }

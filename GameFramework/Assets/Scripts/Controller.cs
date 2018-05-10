@@ -104,356 +104,359 @@ public class Controller {
         //you need to update the gamepad so that internally it knows all of its buttons
         m_GamePad.Update();
 
-        #region Check face buttons
-        if (m_GamePad.GetButton("A"))
+        if (m_GamePad.IsConnected)
         {
-            if (m_GamePad.GetButtonDown("A")) // first check if the button was just pressed this frame
-            {
-                if (HandleAButton != null)
-                {
-                    HandleAButton();
-                }
-                //start the hold timer for this button
-                m_HoldTimer["A"] = m_HoldTimes["A"] + Time.time;
-            }
-            if (m_HoldTimer["A"] <= Time.time)
-            {
-                if (HandleAButtonHold != null)
-                {
-                    HandleAButtonHold();
-                }
-            }
-        }
-        if (m_GamePad.GetButton("B"))
-        {
-            if (m_GamePad.GetButtonDown("B")) // first check if the button was just pressed this frame
-            {
-                if (HandleBButton != null)
-                {
-                    HandleBButton(); 
-                }
-                //start the hold timer for this button
-                m_HoldTimer["B"] = m_HoldTimes["B"] + Time.time;
-            }
-            if (m_HoldTimer["B"] <= Time.time)
-            {
-                if (HandleBButtonHold != null)
-                {
-                    HandleBButtonHold(); 
-                }
-            }
-        }
-        if (m_GamePad.GetButton("X"))
-        {
-            if (m_GamePad.GetButtonDown("X")) // first check if the button was just pressed this frame
-            {
-                if (HandleXButton != null)
-                {
-                    HandleXButton(); 
-                }
-                //start the hold timer for this button
-                m_HoldTimer["X"] = m_HoldTimes["X"] + Time.time;
-            }
-            if (m_HoldTimer["X"] <= Time.time)
-            {
-                if (HandleXButtonHold != null)
-                {
-                    HandleXButtonHold(); 
-                }
-            }
-        }
-        if (m_GamePad.GetButton("Y"))
-        {
-            if (m_GamePad.GetButtonDown("Y")) // first check if the button was just pressed this frame
-            {
-                if (HandleYButton != null)
-                {
-                    HandleYButton(); 
-                }
-                //start the hold timer for this button
-                m_HoldTimer["Y"] = m_HoldTimes["Y"] + Time.time;
-            }
-            if (m_HoldTimer["Y"] <= Time.time)
-            {
-                if (HandleYButtonHold != null)
-                {
-                    HandleYButtonHold(); 
-                }
-            }
-        }
-        #endregion
 
-        #region Check DPad
-        if (m_GamePad.GetButton("DPadUp"))
-        {
-            if (m_GamePad.GetButtonDown("DPadUp")) // first check if the button was just pressed this frame
+            #region Check face buttons
+            if (m_GamePad.GetButton("A"))
             {
-                if (HandleDPadUp != null)
+                if (m_GamePad.GetButtonDown("A")) // first check if the button was just pressed this frame
                 {
-                    HandleDPadUp(); 
+                    if (HandleAButton != null)
+                    {
+                        HandleAButton();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["A"] = m_HoldTimes["A"] + Time.time;
                 }
-                //start the hold timer for this button
-                m_HoldTimer["DPadUp"] = m_HoldTimes["DPadUp"] + Time.time;
-            }
-            if (m_HoldTimer["DPadUp"] <= Time.time)
-            {
-                if (HandleDPadUpHold != null)
+                if (m_HoldTimer["A"] <= Time.time)
                 {
-                    HandleDPadUpHold(); 
-                }
-            }
-        }
-        if (m_GamePad.GetButton("DPadDown"))
-        {
-            if (m_GamePad.GetButtonDown("DPadDown")) // first check if the button was just pressed this frame
-            {
-                if (HandleDPadDown != null)
-                {
-                    HandleDPadDown(); 
-                }
-                //start the hold timer for this button
-                m_HoldTimer["DPadDown"] = m_HoldTimes["DPadDown"] + Time.time;
-            }
-            if (m_HoldTimer["DPadDown"] <= Time.time)
-            {
-                if (HandleDPadDownHold != null)
-                {
-                    HandleDPadDownHold(); 
+                    if (HandleAButtonHold != null)
+                    {
+                        HandleAButtonHold();
+                    }
                 }
             }
-        }
-        if (m_GamePad.GetButton("DPadLeft"))
-        {
-            if (m_GamePad.GetButtonDown("DPadLeft")) // first check if the button was just pressed this frame
+            if (m_GamePad.GetButton("B"))
             {
-                if (HandleDPadLeft != null)
+                if (m_GamePad.GetButtonDown("B")) // first check if the button was just pressed this frame
                 {
-                    HandleDPadLeft(); 
+                    if (HandleBButton != null)
+                    {
+                        HandleBButton();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["B"] = m_HoldTimes["B"] + Time.time;
                 }
-                //start the hold timer for this button
-                m_HoldTimer["DPadLeft"] = m_HoldTimes["DPadLeft"] + Time.time;
-            }
-            if (m_HoldTimer["DPadLeft"] <= Time.time)
-            {
-                if (HandleDPadLeftHold != null)
+                if (m_HoldTimer["B"] <= Time.time)
                 {
-                    HandleDPadLeftHold(); 
-                }
-            }
-        }
-        if (m_GamePad.GetButton("DPadRight"))
-        {
-            if (m_GamePad.GetButtonDown("DPadRight")) // first check if the button was just pressed this frame
-            {
-                if (HandleDPadRight != null)
-                {
-                    HandleDPadRight(); 
-                }
-                //start the hold timer for this button
-                m_HoldTimer["DPadRight"] = m_HoldTimes["DPadRight"] + Time.time;
-            }
-            if (m_HoldTimer["DPadRight"] <= Time.time)
-            {
-                if (HandleDPadRightHold != null)
-                {
-                    HandleDPadRightHold(); 
+                    if (HandleBButtonHold != null)
+                    {
+                        HandleBButtonHold();
+                    }
                 }
             }
-        }
-        #endregion
+            if (m_GamePad.GetButton("X"))
+            {
+                if (m_GamePad.GetButtonDown("X")) // first check if the button was just pressed this frame
+                {
+                    if (HandleXButton != null)
+                    {
+                        HandleXButton();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["X"] = m_HoldTimes["X"] + Time.time;
+                }
+                if (m_HoldTimer["X"] <= Time.time)
+                {
+                    if (HandleXButtonHold != null)
+                    {
+                        HandleXButtonHold();
+                    }
+                }
+            }
+            if (m_GamePad.GetButton("Y"))
+            {
+                if (m_GamePad.GetButtonDown("Y")) // first check if the button was just pressed this frame
+                {
+                    if (HandleYButton != null)
+                    {
+                        HandleYButton();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["Y"] = m_HoldTimes["Y"] + Time.time;
+                }
+                if (m_HoldTimer["Y"] <= Time.time)
+                {
+                    if (HandleYButtonHold != null)
+                    {
+                        HandleYButtonHold();
+                    }
+                }
+            }
+            #endregion
 
-        #region Check guide, back, start
-        if (m_GamePad.GetButton("Guide"))
-        {
-            if (m_GamePad.GetButtonDown("Guide")) // first check if the button was just pressed this frame
+            #region Check DPad
+            if (m_GamePad.GetButton("DPadUp"))
             {
-                if (HandleGuide != null)
+                if (m_GamePad.GetButtonDown("DPadUp")) // first check if the button was just pressed this frame
                 {
-                    HandleGuide(); 
+                    if (HandleDPadUp != null)
+                    {
+                        HandleDPadUp();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["DPadUp"] = m_HoldTimes["DPadUp"] + Time.time;
                 }
-                //start the hold timer for this button
-                m_HoldTimer["Guide"] = m_HoldTimes["Guide"] + Time.time;
-            }
-            if (m_HoldTimer["Guide"] <= Time.time)
-            {
-                if (HandleGuideHold != null)
+                if (m_HoldTimer["DPadUp"] <= Time.time)
                 {
-                    HandleGuideHold(); 
-                }
-            }
-        }
-        if (m_GamePad.GetButton("Back"))
-        {
-            if (m_GamePad.GetButtonDown("Back")) // first check if the button was just pressed this frame
-            {
-                if (HandleBack != null)
-                {
-                    HandleBack(); 
-                }
-                //start the hold timer for this button
-                m_HoldTimer["Back"] = m_HoldTimes["Back"] + Time.time;
-            }
-            if (m_HoldTimer["Back"] <= Time.time)
-            {
-                if (HandleBackHold != null)
-                {
-                    HandleBackHold(); 
+                    if (HandleDPadUpHold != null)
+                    {
+                        HandleDPadUpHold();
+                    }
                 }
             }
-        }
-        if (m_GamePad.GetButton("Start"))
-        {
-            if (m_GamePad.GetButtonDown("Start")) // first check if the button was just pressed this frame
+            if (m_GamePad.GetButton("DPadDown"))
             {
-                if (HandleStart != null)
+                if (m_GamePad.GetButtonDown("DPadDown")) // first check if the button was just pressed this frame
                 {
-                    HandleStart(); 
+                    if (HandleDPadDown != null)
+                    {
+                        HandleDPadDown();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["DPadDown"] = m_HoldTimes["DPadDown"] + Time.time;
                 }
-                //start the hold timer for this button
-                m_HoldTimer["Start"] = m_HoldTimes["Start"] + Time.time;
+                if (m_HoldTimer["DPadDown"] <= Time.time)
+                {
+                    if (HandleDPadDownHold != null)
+                    {
+                        HandleDPadDownHold();
+                    }
+                }
             }
-            if (m_HoldTimer["Start"] <= Time.time)
+            if (m_GamePad.GetButton("DPadLeft"))
             {
-                if (HandleStartHold != null)
+                if (m_GamePad.GetButtonDown("DPadLeft")) // first check if the button was just pressed this frame
                 {
-                    HandleStartHold(); 
+                    if (HandleDPadLeft != null)
+                    {
+                        HandleDPadLeft();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["DPadLeft"] = m_HoldTimes["DPadLeft"] + Time.time;
+                }
+                if (m_HoldTimer["DPadLeft"] <= Time.time)
+                {
+                    if (HandleDPadLeftHold != null)
+                    {
+                        HandleDPadLeftHold();
+                    }
                 }
             }
-        }
-        #endregion
+            if (m_GamePad.GetButton("DPadRight"))
+            {
+                if (m_GamePad.GetButtonDown("DPadRight")) // first check if the button was just pressed this frame
+                {
+                    if (HandleDPadRight != null)
+                    {
+                        HandleDPadRight();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["DPadRight"] = m_HoldTimes["DPadRight"] + Time.time;
+                }
+                if (m_HoldTimer["DPadRight"] <= Time.time)
+                {
+                    if (HandleDPadRightHold != null)
+                    {
+                        HandleDPadRightHold();
+                    }
+                }
+            }
+            #endregion
 
-        #region Check joystick presses
-        if (m_GamePad.GetButton("L3"))
-        {
-            if (m_GamePad.GetButtonDown("L3")) // first check if the button was just pressed this frame
+            #region Check guide, back, start
+            if (m_GamePad.GetButton("Guide"))
             {
-                if (HandleLeftJoystickClick != null)
+                if (m_GamePad.GetButtonDown("Guide")) // first check if the button was just pressed this frame
                 {
-                    HandleLeftJoystickClick(); 
+                    if (HandleGuide != null)
+                    {
+                        HandleGuide();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["Guide"] = m_HoldTimes["Guide"] + Time.time;
                 }
-                //start the hold timer for this button
-                m_HoldTimer["L3"] = m_HoldTimes["L3"] + Time.time;
-            }
-            if (m_HoldTimer["L3"] <= Time.time)
-            {
-                if (HandleLeftJoystickHold != null)
+                if (m_HoldTimer["Guide"] <= Time.time)
                 {
-                    HandleLeftJoystickHold(); 
-                }
-            }
-        }
-        if (m_GamePad.GetButton("R3"))
-        {
-            if (m_GamePad.GetButtonDown("R3")) // first check if the button was just pressed this frame
-            {
-                if (HandleRightJoystickClick != null)
-                {
-                    HandleRightJoystickClick(); 
-                }
-                //start the hold timer for this button
-                m_HoldTimer["R3"] = m_HoldTimes["R3"] + Time.time;
-            }
-            if (m_HoldTimer["R3"] <= Time.time)
-            {
-                if (HandleRightJoystickHold != null)
-                {
-                    HandleRightJoystickHold(); 
+                    if (HandleGuideHold != null)
+                    {
+                        HandleGuideHold();
+                    }
                 }
             }
-        }
-        #endregion
+            if (m_GamePad.GetButton("Back"))
+            {
+                if (m_GamePad.GetButtonDown("Back")) // first check if the button was just pressed this frame
+                {
+                    if (HandleBack != null)
+                    {
+                        HandleBack();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["Back"] = m_HoldTimes["Back"] + Time.time;
+                }
+                if (m_HoldTimer["Back"] <= Time.time)
+                {
+                    if (HandleBackHold != null)
+                    {
+                        HandleBackHold();
+                    }
+                }
+            }
+            if (m_GamePad.GetButton("Start"))
+            {
+                if (m_GamePad.GetButtonDown("Start")) // first check if the button was just pressed this frame
+                {
+                    if (HandleStart != null)
+                    {
+                        HandleStart();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["Start"] = m_HoldTimes["Start"] + Time.time;
+                }
+                if (m_HoldTimer["Start"] <= Time.time)
+                {
+                    if (HandleStartHold != null)
+                    {
+                        HandleStartHold();
+                    }
+                }
+            }
+            #endregion
 
-        #region Check bumpers
-        if (m_GamePad.GetButton("LB"))
-        {
-            if (m_GamePad.GetButtonDown("LB")) // first check if the button was just pressed this frame
+            #region Check joystick presses
+            if (m_GamePad.GetButton("L3"))
             {
-                if (HandleLeftBumper != null)
+                if (m_GamePad.GetButtonDown("L3")) // first check if the button was just pressed this frame
                 {
-                    HandleLeftBumper(); 
+                    if (HandleLeftJoystickClick != null)
+                    {
+                        HandleLeftJoystickClick();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["L3"] = m_HoldTimes["L3"] + Time.time;
                 }
-                //start the hold timer for this button
-                m_HoldTimer["LB"] = m_HoldTimes["LB"] + Time.time;
-            }
-            if (m_HoldTimer["LB"] <= Time.time)
-            {
-                if (HandleLeftBumperHold != null)
+                if (m_HoldTimer["L3"] <= Time.time)
                 {
-                    HandleLeftBumperHold(); 
-                }
-            }
-        }
-        if (m_GamePad.GetButton("RB"))
-        {
-            if (m_GamePad.GetButtonDown("RB")) // first check if the button was just pressed this frame
-            {
-                if (HandleRightBumper != null)
-                {
-                    HandleRightBumper(); 
-                }
-                //start the hold timer for this button
-                m_HoldTimer["RB"] = m_HoldTimes["RB"] + Time.time;
-            }
-            if (m_HoldTimer["RB"] <= Time.time)
-            {
-                if (HandleRightBumperHold != null)
-                {
-                    HandleRightBumperHold(); 
+                    if (HandleLeftJoystickHold != null)
+                    {
+                        HandleLeftJoystickHold();
+                    }
                 }
             }
-        }
-        #endregion
+            if (m_GamePad.GetButton("R3"))
+            {
+                if (m_GamePad.GetButtonDown("R3")) // first check if the button was just pressed this frame
+                {
+                    if (HandleRightJoystickClick != null)
+                    {
+                        HandleRightJoystickClick();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["R3"] = m_HoldTimes["R3"] + Time.time;
+                }
+                if (m_HoldTimer["R3"] <= Time.time)
+                {
+                    if (HandleRightJoystickHold != null)
+                    {
+                        HandleRightJoystickHold();
+                    }
+                }
+            }
+            #endregion
 
-        #region Check triggers
-        if (m_GamePad.GetLeftTriggerTap())
-        {
-            if (HandleLeftTriggerTap != null)
+            #region Check bumpers
+            if (m_GamePad.GetButton("LB"))
             {
-                HandleLeftTriggerTap(); 
+                if (m_GamePad.GetButtonDown("LB")) // first check if the button was just pressed this frame
+                {
+                    if (HandleLeftBumper != null)
+                    {
+                        HandleLeftBumper();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["LB"] = m_HoldTimes["LB"] + Time.time;
+                }
+                if (m_HoldTimer["LB"] <= Time.time)
+                {
+                    if (HandleLeftBumperHold != null)
+                    {
+                        HandleLeftBumperHold();
+                    }
+                }
             }
-        }
-        if (m_GamePad.GetLeftTrigger() >= 0.1f)
-        {
-            if (HandleLeftTrigger != null)
+            if (m_GamePad.GetButton("RB"))
             {
-                HandleLeftTrigger(m_GamePad.GetLeftTrigger()); 
+                if (m_GamePad.GetButtonDown("RB")) // first check if the button was just pressed this frame
+                {
+                    if (HandleRightBumper != null)
+                    {
+                        HandleRightBumper();
+                    }
+                    //start the hold timer for this button
+                    m_HoldTimer["RB"] = m_HoldTimes["RB"] + Time.time;
+                }
+                if (m_HoldTimer["RB"] <= Time.time)
+                {
+                    if (HandleRightBumperHold != null)
+                    {
+                        HandleRightBumperHold();
+                    }
+                }
             }
-        }
-        if (m_GamePad.GetRightTriggerTap())
-        {
-            if (HandleRightTriggerTap != null)
-            {
-                HandleRightTriggerTap(); 
-            }
-        }
-        if (m_GamePad.GetRightTrigger() >= 0.1f)
-        {
-            if (HandleRightTrigger != null)
-            {
-                HandleRightTrigger(m_GamePad.GetRightTrigger()); 
-            }
-        }
-        #endregion
+            #endregion
 
-        #region Check joysticks
-        Vector2 leftStick = new Vector2(m_GamePad.GetLeftStick().X, m_GamePad.GetLeftStick().Y);
-        Vector2 rightStick = new Vector2(m_GamePad.GetRightStick().X, m_GamePad.GetRightStick().Y);
-        if (HandleLeftStick != null)
-        {
-            if (leftStick.magnitude > Mathf.Epsilon)
+            #region Check triggers
+            if (m_GamePad.GetLeftTriggerTap())
             {
-                HandleLeftStick(leftStick);
+                if (HandleLeftTriggerTap != null)
+                {
+                    HandleLeftTriggerTap();
+                }
             }
-        }
-        if (HandleRightStick != null)
-        {
-            if (rightStick.magnitude > Mathf.Epsilon)
+            if (m_GamePad.GetLeftTrigger() >= 0.1f)
             {
-                HandleRightStick(rightStick); 
+                if (HandleLeftTrigger != null)
+                {
+                    HandleLeftTrigger(m_GamePad.GetLeftTrigger());
+                }
             }
-        }
-        #endregion
+            if (m_GamePad.GetRightTriggerTap())
+            {
+                if (HandleRightTriggerTap != null)
+                {
+                    HandleRightTriggerTap();
+                }
+            }
+            if (m_GamePad.GetRightTrigger() >= 0.1f)
+            {
+                if (HandleRightTrigger != null)
+                {
+                    HandleRightTrigger(m_GamePad.GetRightTrigger());
+                }
+            }
+            #endregion
 
+            #region Check joysticks
+            Vector2 leftStick = new Vector2(m_GamePad.GetLeftStick().X, m_GamePad.GetLeftStick().Y);
+            Vector2 rightStick = new Vector2(m_GamePad.GetRightStick().X, m_GamePad.GetRightStick().Y);
+            if (HandleLeftStick != null)
+            {
+                if (leftStick.magnitude > Mathf.Epsilon)
+                {
+                    HandleLeftStick(leftStick);
+                }
+            }
+            if (HandleRightStick != null)
+            {
+                if (rightStick.magnitude > Mathf.Epsilon)
+                {
+                    HandleRightStick(rightStick);
+                }
+            }
+            #endregion
+        }
         //after handling all of the input we call refresh to settup the previous values of all of the buttons
         m_GamePad.Refresh();
     }

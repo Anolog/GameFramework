@@ -9,7 +9,8 @@ public struct MusicPlaylist
 }
 
 
-public class MusicManager : MonoBehaviour {
+public class MusicManager : MonoBehaviour
+{
 
     private List<MusicPlaylist> m_MusicPlaylist;
 
@@ -22,27 +23,33 @@ public class MusicManager : MonoBehaviour {
     [SerializeField]
     private AudioSource m_AudioSource;
 
-    private AudioManager m_AudioManager;
+    public AudioManager AudioManager;
 
-    private bool m_FadeOutStarted = false; 
+    private bool m_FadeOutStarted = false;
 
-    //Constructor that sets the AudioManager
-    public MusicManager(AudioManager aAudioManager)
+
+    // Use this for initialization
+    void Start()
     {
-        m_AudioManager = aAudioManager;
-    }
+        m_MusicPlaylist = new List<MusicPlaylist>();
 
-	// Use this for initialization
-	void Start () {
         RepeatMusic = true;
         FadeSong = true;
 
-        FadeDuration = 1f;
+        FadeDuration = 5f;
 
         CurrentPlaylistInList = 0;
         CurrentSongInsidePlaylist = 0;
-	}
-	
+
+    }
+
+    public void AddPlaylist(MusicPlaylist aPlaylist)
+    {
+        m_MusicPlaylist.Add(aPlaylist);
+    }
+
+    public List<MusicPlaylist> GetMusicPlaylists() { return m_MusicPlaylist; }
+
     //Stops all coroutines and calls Play Playlist
     public void PlayTracks(MusicPlaylist aMusicPlaylist)
     {
@@ -51,12 +58,12 @@ public class MusicManager : MonoBehaviour {
         StartCoroutine(PlayPlaylist(aMusicPlaylist));
     }
 
+    //TODO: Make sure this works
     //Plays a playlist
     private IEnumerator PlayPlaylist(MusicPlaylist aMusicPlaylist)
     {
         while (aMusicPlaylist.Songs.Count >= CurrentSongInsidePlaylist)
         {
-
             if (m_AudioSource.isPlaying == false || m_AudioSource == null)
             {
                 PlaySong(aMusicPlaylist.Songs[CurrentSongInsidePlaylist], FadeSong);
@@ -77,6 +84,7 @@ public class MusicManager : MonoBehaviour {
                 if (m_AudioSource.time >= m_AudioSource.clip.length - 1)
                 {
                     CurrentSongInsidePlaylist++;
+                    m_FadeOutStarted = false;
                 }
             }
 
@@ -127,33 +135,40 @@ public class MusicManager : MonoBehaviour {
             {
                 //Uses the audio sources time as Time.Time essentially, because we are going through it, not the game time.
                 lerpHelper = Mathf.InverseLerp(0.0f, FadeDuration, m_AudioSource.time);
-                m_AudioSource.volume = Mathf.Lerp(0.0f, m_AudioManager.GetMusicVolume(), lerpHelper);
+                m_AudioSource.volume = Mathf.Lerp(0.0f, AudioManager.GetMusicVolume(), lerpHelper);
 
                 //Break out of coroutine
                 yield return null;
             }
 
-            m_AudioSource.volume = m_AudioManager.GetMusicVolume();
+            m_AudioSource.volume = AudioManager.GetMusicVolume();
         }
     }
 
+    //TODO: Make sure this works
     private IEnumerator FadeOut()
     {
         if (FadeDuration >= 0.0f)
         {
-            float lerpHelper = 0.0f;
+            float lerpHelper = FadeDuration;
 
-            while (lerpHelper <= 1.0f && m_AudioSource.isPlaying == true)
+            while (lerpHelper <= FadeDuration && m_AudioSource.isPlaying == true)
             {
-                //Uses the audio sources time as Time.Time essentially, because we are going through it, not the game time.
-                lerpHelper = Mathf.InverseLerp(0.0f, FadeDuration, m_AudioSource.time);
-                m_AudioSource.volume = Mathf.Lerp(m_AudioManager.GetMusicVolume(), 0.0f, lerpHelper);
+                lerpHelper -= Time.deltaTime * FadeDuration;
+                float temp = Mathf.Lerp(0.0f, AudioManager.GetMusicVolume(), lerpHelper);
 
-                //Break out of coroutine
+                m_AudioSource.volume = temp;
+
+                if (m_AudioSource.volume <= 0.1f)
+                {
+                    m_AudioSource.Stop();
+                    yield break;
+                }
+
                 yield return null;
             }
 
-            m_AudioSource.volume = 0;
+
         }
     }
 }

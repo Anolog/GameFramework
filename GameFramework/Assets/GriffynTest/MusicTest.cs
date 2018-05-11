@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicTest : MonoBehaviour {
+public class MusicTest : MonoBehaviour
+{
 
     AudioManager m_AudioManager;
 
@@ -11,7 +12,8 @@ public class MusicTest : MonoBehaviour {
 
     MusicPlaylist m_Playlist;
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         m_AudioManager = GetComponent<AudioManager>();
         m_AudioManager.Start();
 
@@ -26,7 +28,8 @@ public class MusicTest : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
 		
 	}
 }

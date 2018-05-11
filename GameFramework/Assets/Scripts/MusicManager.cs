@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 // This is being used so that we do not get errors for now.
@@ -45,7 +46,7 @@ public class MusicManager : MonoBehaviour
 
     public void AddPlaylist(MusicPlaylist aPlaylist)
     {
-        m_MusicPlaylist.Add(aPlaylist);
+            m_MusicPlaylist.Add(aPlaylist);
     }
 
     public List<MusicPlaylist> GetMusicPlaylists() { return m_MusicPlaylist; }

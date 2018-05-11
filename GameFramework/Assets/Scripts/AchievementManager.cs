@@ -53,7 +53,7 @@ public class AchievementManager : MonoBehaviour
 
         catch(IndexOutOfRangeException e)
         {
-            throw new ArgumentOutOfRangeException("Index " + aIndex + " is out of range\n" + e.Message);
+            throw new IndexOutOfRangeException("Index " + aIndex + " is out of range\n" + e.Message);
         }
     }
 
@@ -96,7 +96,7 @@ public class AchievementManager : MonoBehaviour
 
         catch (IndexOutOfRangeException e)
         {
-            throw new ArgumentOutOfRangeException("Index " + aIndex + " is bigger than m_ListOfAchievements.Count " + m_ListOfAchievements.Count + "\n" + e.Message);
+            throw new IndexOutOfRangeException("Index " + aIndex + " is bigger than m_ListOfAchievements.Count " + m_ListOfAchievements.Count + "\n" + e.Message);
         }
 
     }

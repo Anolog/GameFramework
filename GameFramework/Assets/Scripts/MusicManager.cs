@@ -15,32 +15,46 @@ public class MusicManager : MonoBehaviour
 
     private List<MusicPlaylist> m_MusicPlaylist;
 
-    public bool RepeatMusic;
-    public bool FadeSong;
-    public float FadeDuration;
-    public int CurrentPlaylistInList;
-    public int CurrentSongInsidePlaylist;
+    private bool m_RepeatMusic;
+    private bool m_FadeSong;
+    private float m_FadeDuration;
+    private int m_CurrentPlaylistInList;
+    private int m_CurrentSongInsidePlaylist;
 
     [SerializeField]
     private AudioSource m_AudioSource;
 
-    public AudioManager AudioManager;
+    private AudioManager m_AudioManager;
 
     private bool m_FadeOutStarted = false;
 
+    //Getters and Setters
+    public bool GetRepeatMusic() { return m_RepeatMusic; }
+    public void SetRepeatMusic(bool aRepeatMusic) { m_RepeatMusic = aRepeatMusic; }
+    public bool GetFadeSong() { return m_FadeSong; }
+    public void SetFadeSong(bool aFadeSong) { m_FadeSong = aFadeSong; }
+    public float GetFadeDuration() { return m_FadeDuration; }
+    public void SetFadeDuration(float aFadeDuration) { m_FadeDuration = aFadeDuration; }
+    public int GetCurrentPlaylistIndex() { return m_CurrentPlaylistInList; }
+    public void SetCurrentPlaylistIndex(int aIndex) { m_CurrentPlaylistInList = aIndex; }
+    public int GetCurrentSongIndex() { return m_CurrentSongInsidePlaylist; }
+    public void SetCurrentSongIndex(int aIndex) { m_CurrentSongInsidePlaylist = aIndex; }
+    public AudioManager GetAudioManager() { return m_AudioManager; }
+    public void SetAudioManager(AudioManager aAudioManager) { m_AudioManager = aAudioManager; }
+
 
     // Use this for initialization
-    void Start()
+    public void Start()
     {
         m_MusicPlaylist = new List<MusicPlaylist>();
 
-        RepeatMusic = true;
-        FadeSong = true;
+        m_RepeatMusic = true;
+        m_FadeSong = true;
 
-        FadeDuration = 5f;
+        m_FadeDuration = 5f;
 
-        CurrentPlaylistInList = 0;
-        CurrentSongInsidePlaylist = 0;
+        m_CurrentPlaylistInList = 0;
+        m_CurrentSongInsidePlaylist = 0;
 
     }
 
@@ -56,7 +70,7 @@ public class MusicManager : MonoBehaviour
     {
         StopAllCoroutines();
 
-        CurrentPlaylistInList = 0;
+        m_CurrentPlaylistInList = 0;
         StartCoroutine(PlayPlaylist(aMusicPlaylist));
     }
 
@@ -64,21 +78,22 @@ public class MusicManager : MonoBehaviour
     //Plays a playlist
     private IEnumerator PlayPlaylist(MusicPlaylist aMusicPlaylist)
     {
-        while (aMusicPlaylist.Songs.Count >= CurrentSongInsidePlaylist)
+        while (aMusicPlaylist.Songs.Count >= m_CurrentSongInsidePlaylist)
         {
             if (m_AudioSource.isPlaying == false || m_AudioSource == null)
             {
                 //Perhaps do this? vvvv
                 //yield return StartCoroutine(PlaySong(aMusicPlaylist.Songs[CurrentSongInsidePlaylist], FadeSong);
                 //Then once it is done on the coroutine, it will increment CurrentSongInsidePlaylist++
-                PlaySong(aMusicPlaylist.Songs[CurrentSongInsidePlaylist], FadeSong);
+                PlaySong(aMusicPlaylist.Songs[m_CurrentSongInsidePlaylist], m_FadeSong);
+                m_FadeOutStarted = false;
             }
 
             else if (m_AudioSource.isPlaying == true)
             {
-                if (FadeSong == true)
+                if (m_FadeSong == true)
                 {
-                    if (m_AudioSource.time >= m_AudioSource.clip.length - FadeDuration && m_FadeOutStarted == false)
+                    if (m_AudioSource.time >= m_AudioSource.clip.length - m_FadeDuration && m_FadeOutStarted == false)
                     {
                         m_FadeOutStarted = true;
                         StartCoroutine(FadeOut());
@@ -86,11 +101,11 @@ public class MusicManager : MonoBehaviour
                 }
 
                 //Check if track is done
-                if (m_AudioSource.time >= m_AudioSource.clip.length - 1)
-                {
-                    CurrentSongInsidePlaylist++;
-                    m_FadeOutStarted = false;
-                }
+                //if (m_AudioSource.time >= m_AudioSource.clip.length - 1)
+                //{
+                //    CurrentSongInsidePlaylist++;
+                //    m_FadeOutStarted = false;
+                //}
             }
 
             yield return null;
@@ -123,46 +138,55 @@ public class MusicManager : MonoBehaviour
     // Will start to play a song with a fade if required
     public void PlaySong(AudioClip aSong, bool aShouldFade)
     {
+        StartCoroutine(PlaySongCoroutine(aSong, aShouldFade));
+    }
+
+    private IEnumerator PlaySongCoroutine(AudioClip aSong, bool aShouldFade)
+    {
         m_AudioSource.clip = aSong;
         m_AudioSource.Play();
+
+        m_CurrentSongInsidePlaylist++;
 
         if (aShouldFade)
         {
             StartCoroutine(FadeIn());
         }
+
+        yield return null;
     }
 
     private IEnumerator FadeIn()
     {
-        if (FadeDuration >= 0.0f)
+        if (m_FadeDuration >= 0.0f)
         {
             float lerpHelper = 0.0f;
 
             while (lerpHelper <= 1.0f && m_AudioSource.isPlaying == true)
             {
                 //Uses the audio sources time as Time.Time essentially, because we are going through it, not the game time.
-                lerpHelper = Mathf.InverseLerp(0.0f, FadeDuration, m_AudioSource.time);
-                m_AudioSource.volume = Mathf.Lerp(0.0f, AudioManager.GetMusicVolume(), lerpHelper);
+                lerpHelper = Mathf.InverseLerp(0.0f, m_FadeDuration, m_AudioSource.time);
+                m_AudioSource.volume = Mathf.Lerp(0.0f, m_AudioManager.GetMusicVolume(), lerpHelper);
 
                 //Break out of coroutine
                 yield return null;
             }
 
-            m_AudioSource.volume = AudioManager.GetMusicVolume();
+            m_AudioSource.volume = m_AudioManager.GetMusicVolume();
         }
     }
 
-    //TODO: Make sure this works
+    //TODO: This appears to not be taking into account the proper fade duration
     private IEnumerator FadeOut()
     {
-        if (FadeDuration >= 0.0f)
+        if (m_FadeDuration >= 0.0f)
         {
-            float lerpHelper = FadeDuration;
+            float lerpHelper = m_FadeDuration;
 
-            while (lerpHelper <= FadeDuration && m_AudioSource.isPlaying == true)
+            while (lerpHelper <= m_FadeDuration && m_AudioSource.isPlaying == true)
             {
-                lerpHelper -= Time.deltaTime * FadeDuration;
-                float temp = Mathf.Lerp(0.0f, AudioManager.GetMusicVolume(), lerpHelper);
+                lerpHelper -= Time.deltaTime * m_FadeDuration;
+                float temp = Mathf.Lerp(0.0f, m_AudioManager.GetMusicVolume(), lerpHelper);
 
                 m_AudioSource.volume = temp;
 

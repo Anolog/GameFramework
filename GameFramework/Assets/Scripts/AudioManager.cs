@@ -14,7 +14,8 @@ public class AudioManager : MonoBehaviour
     {
         // Set the Audio stuff
         Instance = GetComponent<MusicManager>();
-        Instance.AudioManager = this;
+        Instance.Start();
+        Instance.SetAudioManager(this);
 	}
 
     public MusicManager GetMusicManager() { return Instance; }

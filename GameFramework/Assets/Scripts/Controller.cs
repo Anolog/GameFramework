@@ -73,13 +73,13 @@ public class Controller {
     // the timer used for seeing if a button is held down long enough
     private Dictionary<string, float> m_HoldTimer = new Dictionary<string, float>();
 
-    public int ControllerNumber;
+    private int m_ControllerNumber;
 
     // takes an index from 0-3 for which controller number it is
     public Controller(int aIndex)
     {
         m_GamePad = new x360GamePad(aIndex);
-        ControllerNumber = aIndex;
+        m_ControllerNumber = aIndex;
 
         m_HoldTimes["A"] = 0.3f;
         m_HoldTimes["B"] = 0.3f;

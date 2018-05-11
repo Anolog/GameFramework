@@ -78,15 +78,17 @@ public class MusicManager : MonoBehaviour
     //Plays a playlist
     private IEnumerator PlayPlaylist(MusicPlaylist aMusicPlaylist)
     {
-        while (aMusicPlaylist.Songs.Count >= m_CurrentSongInsidePlaylist)
+        int counter = m_CurrentSongInsidePlaylist;
+
+        while (aMusicPlaylist.Songs.Count >= counter)
         {
             if (m_AudioSource.isPlaying == false || m_AudioSource == null)
             {
                 //Perhaps do this? vvvv
                 //yield return StartCoroutine(PlaySong(aMusicPlaylist.Songs[CurrentSongInsidePlaylist], FadeSong);
                 //Then once it is done on the coroutine, it will increment CurrentSongInsidePlaylist++
-                PlaySong(aMusicPlaylist.Songs[m_CurrentSongInsidePlaylist], m_FadeSong);
-                m_FadeOutStarted = false;
+                PlaySong(aMusicPlaylist.Songs[counter], m_FadeSong);
+                counter++;
             }
 
             else if (m_AudioSource.isPlaying == true)
@@ -101,11 +103,10 @@ public class MusicManager : MonoBehaviour
                 }
 
                 //Check if track is done
-                //if (m_AudioSource.time >= m_AudioSource.clip.length - 1)
-                //{
-                //    CurrentSongInsidePlaylist++;
-                //    m_FadeOutStarted = false;
-                //}
+                if (m_AudioSource.time >= m_AudioSource.clip.length - 1)
+                {
+                    m_CurrentSongInsidePlaylist = counter;
+                }
             }
 
             yield return null;
@@ -146,7 +147,7 @@ public class MusicManager : MonoBehaviour
         m_AudioSource.clip = aSong;
         m_AudioSource.Play();
 
-        m_CurrentSongInsidePlaylist++;
+        //m_CurrentSongInsidePlaylist++;
 
         if (aShouldFade)
         {
@@ -193,6 +194,7 @@ public class MusicManager : MonoBehaviour
                 if (m_AudioSource.volume <= 0.1f)
                 {
                     m_AudioSource.Stop();
+                    m_FadeOutStarted = false;
                     yield break;
                 }
 

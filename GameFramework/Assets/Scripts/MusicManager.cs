@@ -55,6 +55,7 @@ public class MusicManager : MonoBehaviour
     {
         StopAllCoroutines();
 
+        CurrentPlaylistInList = 0;
         StartCoroutine(PlayPlaylist(aMusicPlaylist));
     }
 
@@ -66,6 +67,9 @@ public class MusicManager : MonoBehaviour
         {
             if (m_AudioSource.isPlaying == false || m_AudioSource == null)
             {
+                //Perhaps do this? vvvv
+                //yield return StartCoroutine(PlaySong(aMusicPlaylist.Songs[CurrentSongInsidePlaylist], FadeSong);
+                //Then once it is done on the coroutine, it will increment CurrentSongInsidePlaylist++
                 PlaySong(aMusicPlaylist.Songs[CurrentSongInsidePlaylist], FadeSong);
             }
 
@@ -113,6 +117,8 @@ public class MusicManager : MonoBehaviour
         StartCoroutine(FadeOut());
     }
 
+    //Make this coroutine, have another PlaySong override that is just a function that calls the coroutine
+    //Takes in a song. That way, it does it's own thing and doesn't need to go into this function
     // Will start to play a song with a fade if required
     public void PlaySong(AudioClip aSong, bool aShouldFade)
     {

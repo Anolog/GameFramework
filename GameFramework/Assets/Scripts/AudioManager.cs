@@ -1,21 +1,23 @@
 ﻿using UnityEngine;
 
-public class AudioManager : MonoBehaviour {
+public class AudioManager : MonoBehaviour
+{
 
-    public MusicManager m_MusicManager;
+    public static MusicManager Instance;
     private SoundEffectsManager m_SoundEffectsManager;
 
     // These will be obtained from the player prefs
     private float m_MusicVolume;
     private float m_SoundEffectsVolume;
 
-	public void Start () {
+	public void Start ()
+    {
         // Set the Audio stuff
-        m_MusicManager = GetComponent<MusicManager>();
-        m_MusicManager.AudioManager = this;
+        Instance = GetComponent<MusicManager>();
+        Instance.AudioManager = this;
 	}
 
-    public MusicManager GetMusicManager() { return m_MusicManager; }
+    public MusicManager GetMusicManager() { return Instance; }
     public SoundEffectsManager GetSoundEffectsManager() { return m_SoundEffectsManager; }
 
     public void SetMusicVolume(float aVolume) { m_MusicVolume = aVolume; }

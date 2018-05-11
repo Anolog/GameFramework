@@ -5,13 +5,19 @@ using UnityEngine;
 
 public class AchievementManager : MonoBehaviour
 {
+    public static AchievementManager Instance;
+
     [SerializeField]
     private List<Achievement> m_ListOfAchievements;
 
 	// Use this for initialization
 	void Start ()
     {
-		
+		if (Instance == null)
+        {
+            DontDestroyOnLoad(this);
+            Instance = this;
+        }
 	}
 	
 	// Update is called once per frame

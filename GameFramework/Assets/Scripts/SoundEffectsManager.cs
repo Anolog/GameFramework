@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class SoundEffectsManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField]
+    private Dictionary<string, AudioObject> m_SoundEffectsList;
+
+    private AudioObject m_TempSoundObject;
+
+    // plays a sound based on the name and position provided
+	public void PlaySoundByName(string aSoundName, Vector3 aSoundPos)
+    {
+        m_TempSoundObject = m_SoundEffectsList[aSoundName];
+        m_TempSoundObject.PlaySound(aSoundPos);
+    }
 }
